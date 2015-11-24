@@ -1,0 +1,78 @@
+﻿@{
+	ViewBag.Title = "FatAntelope Tester";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+	<h1>FatAntelope Tester</h1>
+  <p>
+    <a href="https://github.com/CameronWills/FatAntelope">FatAntelope</a> is a tool for comparing .NET .config files and generating a 
+   config transform (<a href="http://msdn.microsoft.com/en-us/library/dd465318.aspx">Microsoft Xml Document Transform</a>)
+   Here's the <a href="http://msdn.microsoft.com/en-us/library/dd465326.aspx"> full syntax-guide at MSDN
+    </a>.
+  </p>
+	
+  <h3>Source Web.config</h3>
+  <textarea class="code" cols="20" id="source" name="source" rows="3">
+@ViewBag.DefaultSourceConfig
+  </textarea>
+	
+	<h3>Target Web.config</h3>
+  <textarea class="code" cols="20" id="target" name="target" rows="3">
+@ViewBag.DefaultTargetConfig
+  </textarea>
+  <div style="margin-top:3rem">
+    <input class="btn btn-lg btn-info" type="submit" value="Diff Configs" onclick="diff();" />
+  </div>
+
+	<h3>Result <small>(E.g. Web.Release.config)</small></h3>
+  <textarea class="code" cols="20" id="result" name="result" rows="3"></textarea>
+  <div class="alert alert-warning" role="alert" style="margin-top:2rem">
+    <h4>Warnings</h4>
+    <ul>
+      <li>
+        The generated transform may not have the most optimal values for the xdt:Locator and xdt:Transform attributes. I recommend only using this output as a starting-point.
+      </li>
+      <li>
+        The XML comparison algorithm used does an unordered comparison of XML nodes, so the position / index  of child elements within the same parent will be ignored.
+      </li>
+</ul>
+  </div>
+  <hr />
+  <p>
+    A command-line version of FatAntelope is available from the <a href="https://github.com/CameronWills/FatAntelope">Github page</a>
+  </p>
+  <hr />
+	<script type="text/javascript">
+		var sourceEditor;
+		var targetEditor;
+		var resultEditor;
+
+		function diff() {
+			resultEditor.setCode('');
+			$.post('diff',
+				{ sourceXml: sourceEditor.getCode(), targetXml: targetEditor.getCode() },
+				function (result, status, jqXHR) {
+					resultEditor.setCode(jqXHR.responseText);
+				})
+				.error(function (jqXHR, textStatus, errorThrown) {
+					resultEditor.setCode(jqXHR.responseText);
+				});
+		}
+
+		function editor(id) {
+			return CodeMirror.fromTextArea(id, {
+				parserfile: "parsexml.js",
+				stylesheet: "assets/css/xmlcolors.css",
+				path: "assets/js/codemirror/",
+				continuousScanning: 500,
+				lineNumbers: true
+			});
+		}
+
+		sourceEditor = editor('source');
+		targetEditor = editor('target');
+		resultEditor = editor('result');
+
+	</script>
+</div>
