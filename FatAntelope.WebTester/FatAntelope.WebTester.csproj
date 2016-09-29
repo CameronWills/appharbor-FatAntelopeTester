@@ -48,8 +48,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FatAntelope.Core, Version=0.2.7.0, Culture=neutral, PublicKeyToken=64d036834513e99c, processorArchitecture=MSIL">
-      <HintPath>..\packages\FatAntelope.0.2.7\lib\net45\FatAntelope.Core.dll</HintPath>
+    <Reference Include="FatAntelope.Core, Version=0.2.8.0, Culture=neutral, PublicKeyToken=64d036834513e99c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FatAntelope.0.2.8\lib\net45\FatAntelope.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
